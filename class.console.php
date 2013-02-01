@@ -508,7 +508,6 @@ class Console {
 		$nbEntities = sizeof($config['data']);
 		$entityWidth = floor(10 / $nbEntities);
 		$entitySpacer = 10 - ($entityWidth * $nbEntities);
-		$maxCharas = self::config('maxCharas');
 		$border = self::drawBorder(ConsoleBackgrounds::white);
 		$nbValues = 0;
 
@@ -531,6 +530,8 @@ class Console {
 
 		$yLabelsWidth = strlen(str_replace('{{ value }}', $maxValue, $yLabels));
 
+		$maxWidth = $yLabelsWidth + 2 + 2 + ($nbValues * 12);
+
 		$levelsValues = array();
 		for($i = 0; $i <= 10; $i++) {
 			$levelsValues []= round((($maxValue - $minValue) / 10) * $i);
@@ -545,7 +546,7 @@ class Console {
 			$leftPart = '  '.$spaces.$label.' '.$border;
 
 			if($i == 0) {
-				$lines [] = $leftPart.self::drawBar(ConsoleBackgrounds::white, $maxCharas - ($yLabelsWidth + 3));
+				$lines [] = $leftPart.self::drawBar(ConsoleBackgrounds::white, $maxWidth - ($yLabelsWidth + 3));
 			}
 			else {
 				$columns = '';

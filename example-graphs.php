@@ -29,7 +29,7 @@ Console::begin($argv, array('plain' => true));
 
 Console::graph(array(
 	'label' => 'Proportion of men, women and kids on each floor:',
-	'xLabels' => array('1st floor', '2nd floor', '3rd floor', '3rd floor', '5th floor'),
+	'xLabels' => array('1st floor', '2nd floor', '3rd floor', '4rd floor', '5th floor', '6th floor'),
 	'yLabels' => '{{ value }}%',
 	'colors' => array(
 		array(ConsoleColors::blue, ConsoleBackgrounds::blue),
@@ -37,9 +37,9 @@ Console::graph(array(
 		array(ConsoleColors::yellow, ConsoleBackgrounds::yellow)
 	),
 	'data' => array(
-		'men' => array(100, 100, 100, 100, 100),
-		'women' => array(50, 50, 50, 50, 50),
-		'kids' => array(75, 75, 75, 75, 75)
+		'men' => array(100, 100, 100, 100, 100, 100, 100),
+		'women' => array(50, 50, 50, 50, 50, 50, 50),
+		'kids' => array(75, 75, 75, 75, 75, 75, 75)
 	)
 ));
 
