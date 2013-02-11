@@ -20,7 +20,7 @@
 \*/
 
 class ConsoleColors {
-    const none			= "\033[0m";
+	const none			= "\033[0m";
 	const black			= "\033[0;30m";
 	const red			= "\033[0;31m";
 	const green			= "\033[0;32m";
@@ -32,14 +32,14 @@ class ConsoleColors {
 }
 
 class ConsoleStyles {
-    const none			= 0;
-    const bold			= 1;
-    const underline		= 4;
+	const none			= 0;
+	const bold			= 1;
+	const underline		= 4;
 }
 
 class ConsoleBackgrounds {
-    const none			= "\033[0m";
-    const black			= "\033[40m";
+	const none			= "\033[0m";
+	const black			= "\033[40m";
 	const red			= "\033[41m";
 	const green			= "\033[42m";
 	const yellow		= "\033[43m";
@@ -50,17 +50,17 @@ class ConsoleBackgrounds {
 }
 
 class ConsolePositions {
-    const top			= 1;
-    const right			= 2;
+	const top			= 1;
+	const right			= 2;
 	const bottom		= 4;
 	const left			= 8;
 }
 
 class Console {
 
-	/*
+	/*\
 	 * CONFIGURATION
-	 */
+	\*/
 
 	const returnChara = "\n";
 	const defaultBorderColor = ConsoleBackgrounds::blue;
@@ -102,9 +102,9 @@ class Console {
 		}
 	}
 
-	/*
+	/*\
 	 * OUTPUT
-	 */
+	\*/
 
 	public static function begin($argv, $config, $title = false) {
 		foreach ($config as $key => $value) {
@@ -155,9 +155,9 @@ class Console {
 		echo self::styleText(' '.$text, $color, $style, $background);
 	}
 
-	/*
+	/*\
 	 * TEXT UTILS
-	 */
+	\*/
 
 	public static function styleText($text, $color = ConsoleColors::none, $style = ConsoleStyles::none, $background = ConsoleBackgrounds::none) {
 		if(!self::config('isColorsEnabled')) {
@@ -229,9 +229,9 @@ class Console {
 		self::line();
 	}
 
-	/*
+	/*\
 	 * DEFINED DRAWS
-	 */
+	\*/
 
 	public static function drawBar($color = self::defaultBorderColor, $size = false, $chara = '=') {
 		$size = $size ? $size : self::config('maxCharas');
@@ -274,9 +274,9 @@ class Console {
 		self::line();
 	}
 
-	/*
+	/*\
 	 * WIDGETS
-	 */
+	\*/
 
 	public static function progress($percent, $color = ConsoleColors::none, $style = ConsoleStyles::none, $background = ConsoleBackgrounds::none) {
 		self::savePosition();
@@ -603,9 +603,20 @@ class Console {
 		self::line();
 	}
 
-	/*
+	/*\
+	 * USER ACTIONS
+	\*/
+
+	public static function input($label = '', $color = ConsoleColors::none, $style = ConsoleStyles::none, $background = ConsoleBackgrounds::none) {
+		$label = self::styleText($label, $color, $style, $background);
+		$input = readline($label);
+		readline_add_history($input);
+		return $input;
+	}
+
+	/*\
 	 * JOBS
-	 */
+	\*/
 
 	private static $jobsSuccess;
 	private static $actualJobs;
@@ -731,7 +742,7 @@ class Console {
 		}
 
 		if($hasUserAction) {
-			readline('');
+			self::input();
 		}
 
 		if($rewrite) {

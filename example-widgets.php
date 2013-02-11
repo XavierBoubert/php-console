@@ -73,6 +73,9 @@ Console::draw(array(
 
 Console::line();
 
+$text = Console::input('  Input text here: ', ConsoleColors::green);
+Console::line('  You\'ve writed "'.$text.'"');
+
 Console::badge('Badge Widget', ConsolePositions::right, ConsoleColors::none, ConsoleStyles::none, ConsoleBackgrounds::none, ConsoleBackgrounds::cyan);
 
 /*
