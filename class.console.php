@@ -826,24 +826,20 @@ class Console {
 		self::writeJobs('warning', $id);
 	}
 
-	public static function jobsBadge() {
+	public static function jobsBadge($successText = 'WORK DONE!', $warningText = 'WORK DONE WITH {{ warnings }} WARNINGS!', $errorText = 'WORK DONE WITH {{ errors }} ERRORS!', $errorWarningText = array('WORK DONE', 'WITH {{ errors }} ERRORS!', 'WITH {{ warnings }} WARNINGS!')) {
 		$success = self::$jobsSuccess;
 
 		if($success['errors'] == 0 && $success['warnings'] == 0) {
-			self::badgeSuccess('WORK DONE !');
+			self::badgeSuccess($successText);
 		}
 		else if($success['warnings'] == 0) {
-			self::badgeError('WORK DONE WITH '.$success['errors'].' ERROR'.($success['errors'] > 1 ? 'S' : '').' !');
+			self::badgeError(str_replace('{{ errors }}', $success['errors'], $errorText));
 		}
 		else if($success['errors'] == 0) {
-			self::badgeWarning('WORK DONE WITH '.$success['warnings'].' WARNING'.($success['warnings'] > 1 ? 'S' : ''));
+			self::badgeWarning(str_replace('{{ warnings }}', $success['warnings'], $warningText));
 		}
 		else {
-			self::badgeError(array(
-				'WORK DONE',
-				'WITH '.$success['errors'].' ERROR'.($success['errors'] > 1 ? 'S' : '').' !',
-				'WITH '.$success['warnings'].' WARNING'.($success['warnings'] > 1 ? 'S' : '')
-			));
+			self::badgeError(str_replace(array('{{ warnings }}', '{{ errors }}'), array($success['warnings'], $success['errors']), $errorWarningText));
 		}
 	}
 
