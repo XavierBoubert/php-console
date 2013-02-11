@@ -27,7 +27,7 @@ Console::beginJobs($argv, array(
 ), array(
 	't1' => 'task number 1...',
 	't2' => 'task number 2...',
-	't3' => 'task number 3...',
+	't3' => 'manual task number 3...',
 	't4' => 'task number 4...'
 ));
 
@@ -66,18 +66,8 @@ else {
 }
 
 Console::jobProgress('t3', 0);
-
-for($i = 0; $i < 100; $i++) {
-	Console::jobProgress('t3', $i);
-	time_nanosleep(0, 20000000);
-}
-
-if(true) {
-	Console::jobSuccess('t3');
-}
-else {
-	Console::jobFail('t3');
-}
+Console::jobUserAction('t3', 'Done? (press ENTER when done)');
+Console::jobSuccess('t3');
 
 Console::jobProgress('t4', 0);
 

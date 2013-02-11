@@ -616,6 +616,7 @@ class Console {
 
 		$maxCharas = self::config('maxCharas');
 		$rewrite = false;
+		$hasUserAction = false;
 
 		foreach (self::$actualJobs as $jobId => $job) {
 			$spaces = str_repeat(' ', $maxCharas - (strlen($job['label']) + 2));
@@ -656,6 +657,23 @@ class Console {
 						$line .= '[KO]';
 					}
 				}
+			}
+			else if($job['userAction']) {
+				$actionTextLen = strlen($job['userAction']) + 1;
+				$actionText = ConsoleColors::red.$job['userAction'].ConsoleColors::none;
+
+				$line = '  '.$job['label'];
+				$lineLen = strlen($line) + $actionTextLen;
+				if($lineLen > $maxCharas) {
+					$line = substr('  '.$job['label'], 0, $maxCharas - $actionTextLen);
+				}
+				else if($lineLen < $maxCharas) {
+					$line .= str_repeat(' ', $maxCharas - $lineLen);
+				}
+				$line .= ' '.$actionText;
+
+				self::$actualJobs[$jobId]['userAction'] = false;
+				$hasUserAction = true;
 			}
 			else if($job['activated'] && $job['percent'] > 0) {
 
@@ -712,6 +730,10 @@ class Console {
 			self::line();
 		}
 
+		if($hasUserAction) {
+			readline('');
+		}
+
 		if($rewrite) {
 			$step++;
 			time_nanosleep(0, 50000000);
@@ -730,6 +752,7 @@ class Console {
 				'percent' => 0,
 				'activated' => false,
 				'success' => false,
+				'userAction' => false,
 				'errorType' => ''
 			);
 		}
@@ -758,6 +781,14 @@ class Console {
 		self::setJob($id, array(
 			'percent' => $percent,
 			'activated' => true
+		));
+
+		self::writeJobs();
+	}
+
+	public static function jobUserAction($id, $actionText) {
+		self::setJob($id, array(
+			'userAction' => $actionText
 		));
 
 		self::writeJobs();
